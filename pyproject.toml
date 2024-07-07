@@ -9,10 +9,16 @@ readme = "README.md"
 python = "^3.11"
 streamlit = "^1.36.0"
 pandas = "^2.2.2"
-numpy = "^2.0.0"
+numpy = ">=1.17,<2.0"
 pillow = "^10.4.0"
 gtts = "^2.5.1"
 requests = "^2.32.3"
+transformers = "^4.42.3"
+diffusers = "^0.29.2"
+torch = "^2.3.1"
+torchvision = "^0.18.1"
+torchaudio = "^2.3.1"
+sentencepiece = "^0.2.0"
 
 
 [build-system]
