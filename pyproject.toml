@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "jlpt-learning-app"
+version = "0.1.0"
+description = ""
+authors = ["Boyd Sorratat <redthegx@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+streamlit = "^1.36.0"
+pandas = "^2.2.2"
+numpy = "^2.0.0"
+pillow = "^10.4.0"
+gtts = "^2.5.1"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
