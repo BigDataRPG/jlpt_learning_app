@@ -18,35 +18,48 @@ def generate_example_sentence(word, model_dir='models/rinna-llama-3-youko-8b'):
         tokenizer.save_pretrained(tokenizer_path)
         model.save_pretrained(model_path)
     else:
-        tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
-        model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16)
+        tokenizer = AutoTokenizer.from_pretrained(tokenizer_path).to("cuda")
+        model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16).to("cuda")
     
-    generator = pipeline('text-generation', model=model, tokenizer=tokenizer, device_map="auto")
-    prompt = f"""{word} を使って、JLPT N3レベルの日本語の例文を作成してください。結果をJSON形式で返してください。
+    generator = pipeline(
+        'text-generation', 
+        model=model, 
+        tokenizer=tokenizer, 
+        device_map="auto"
+    )
+
+
+    prompt = f"""'{word}' を使って、JLPT N3レベルの日本語の例文を作成してください。結果をJSON形式で返してください。
     
     例えば:
 
     {{
-        'word': '酒',
-        'hiragana': 'さけ',
-        'example_sentences': [
-            {{
-                'sentence': '友達と一緒に酒を飲みに行きました。',
-                'translation': 'I went to drink sake with my friends.'
-            }},
-            {{
-                'sentence': '日本の酒はとても有名です。',
-                'translation': 'Japanese sake is very famous.'
-            }},
-            {{
-                'sentence': '酒を飲みすぎると、体に悪いです。',
-                'translation': 'Drinking too much sake is bad for your health.'
-            }}
-        ]
+    "言葉": "車",
+    "ひらがな": "くるま",
+    "例文": [
+        {
+            "文": "彼（かれ）は新（あたら）しい車（くるま）を買（か）いました。",
+            "英語": "He bought a new car."
+        },
+        {
+            "文": "車（くるま）が壊（こわ）れたので修理（しゅうり）に出（だ）しました。",
+            "英語": "I took my car to the repair shop because it broke down."
+        },
+        {
+            "文": "この車（くるま）は燃費（ねんぴ）が良（よ）くて経済的（けいざいてき）だ。",
+            "英語": "This car has good fuel efficiency and is economical."
+        }
+    ]
     }}
     """
 
-    result = generator(prompt, max_length=1000, num_return_sequences=1)
+    result = generator(
+        prompt, 
+        max_length=1000, 
+        max_new_tokens=256,
+        num_return_sequences=1
+    )
+    
     generated_text = result[0]['generated_text']  
     print("Question:", word)
     print("Answer:", generated_text)
@@ -54,6 +67,6 @@ def generate_example_sentence(word, model_dir='models/rinna-llama-3-youko-8b'):
     return generated_text
 
 if __name__ == '__main__':
-    word = '車'
+    word = '飛行機'
     output = generate_example_sentence(word)
     print(output)
