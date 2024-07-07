@@ -44,24 +44,6 @@ poetry run streamlit run jlpt_learning_app/app.py
 
 This will start the Streamlit app, and you can access it in your web browser at `http://localhost:8501`.
 
-## Project Structure
-
-```
-jlpt_learning_app/
-│
-├── jlpt_learning_app/
-│   ├── __init__.py
-│   └── app.py
-│
-├── tests/
-│   └── __init__.py
-│
-├── .gitignore
-├── pyproject.toml
-├── README.md
-└── poetry.lock
-```
-
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request for any changes or improvements.
